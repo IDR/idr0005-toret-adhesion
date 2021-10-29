@@ -68,6 +68,10 @@ def normalise_genes(screen):
             new_gene_id = match[0]
             new_gene_symbol = match[1]
 
+            if new_gene_symbol == 'unknown ID':
+                data.append(row)
+                continue
+
             # If the validated symbol has changed
             if (new_gene_symbol != gene_symbol):
                 row[16] = new_gene_symbol
