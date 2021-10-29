@@ -45,11 +45,11 @@ def normalise_genes(screen):
         csv_reader = csv.reader(csvfile, delimiter=',')
         headers = next(csv_reader, None)
         # Add new columns for validation
-        headers.insert(16, 'New Gene Symbol')
+        headers.insert(15, 'New Gene Symbol')
         headers.insert(17, 'New Gene Synonyms')
         data = []
         for row in csv_reader:
-            row.insert(16, '')
+            row.insert(15, '')
             row.insert(17, '')
             gene_id = row[13]
             if gene_id.startswith('FBgn') or gene_id not in genes:
@@ -58,7 +58,7 @@ def normalise_genes(screen):
 
             n_genes += 1
             gene_symbol = row[14]
-            gene_synonyms = row[15]
+            gene_synonyms = row[16]
 
             match = find_match(genes[gene_id], gene_symbol)
             if not match:
@@ -68,13 +68,13 @@ def normalise_genes(screen):
             new_gene_id = match[0]
             new_gene_symbol = match[1]
 
-            if new_gene_symbol == 'unknown ID':
+            if new_gene_id == 'unknown ID':
                 data.append(row)
                 continue
 
             # If the validated symbol has changed
             if (new_gene_symbol != gene_symbol):
-                row[16] = new_gene_symbol
+                row[15] = new_gene_symbol
                 n_symbol_updates += 1
 
             if gene_id not in gene_synonyms:
